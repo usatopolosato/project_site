@@ -16,7 +16,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = dt.timedelta(days=1)
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html")
+    return render_template("base.html")
 
 
 def main():
