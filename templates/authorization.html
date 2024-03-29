@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet"
+          href="../static/css/style_authorization.css">
+    <title>Авторизация</title>
+</head>
+<body>
+<div class="wrapper">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <h1>Авторизация</h1>
+        <div class="input-box">
+            {{ form.nickname(type="text", placeholder='Username') }} <i
+                class='bx bx-user-circle'></i><br>
+            {% for error in form.nickname.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="input-box">
+            {{ form.password(type="password", placeholder='Password')}} <i
+                class='bx bx-lock'></i><br>
+            {% for error in form.password.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+        </div>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit(type="submit", class="i-btn") }}</p>
+
+        <div class="register-link">
+            <p>Если у вас еще нет аккаунта, то скорее <a href="/">регистрируйтесь</a>!</p>
+        </div>
+        <div style="color: red;">{{ message }}</div>
+    </form>
+</div>
+</body>
+</html>

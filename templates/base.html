@@ -6,6 +6,7 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         .round-obr {
             border-radius: 50%;
@@ -33,7 +34,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <title>Result</title>
+    <title>{{ title }}</title>
 </head>
 <body>
 <header>
@@ -72,9 +73,18 @@
                            aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Искать</button>
                 </form>
-                <a href="registration">
+                {% if current_user.is_authenticated %}
+                <span>&nbsp;&nbsp;&nbsp;
+                   <a class="navbar-brand" href="/logout">{{ current_user.surname }} {{
+                    current_user.name }}</a>
+                        </span>
+                {% else %}
+                <span>&nbsp;
+                        <a href="authorization">
                     <button class="btn btn-outline-primary" type="submit">Войти</button>
                 </a>
+                        </span>
+                {% endif %}
             </div>
         </div>
     </nav>
@@ -105,7 +115,16 @@
                             предметов имени кавалера ордена Красной Звезды А.А. Кузора"
                         </i></p>
                 </div>
-
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-5">Наша Медиа</h6>
+                    <p class="text-uppercase fw-bold mb-4">
+                        Группа ВТОРАЯ МЕДИА:<br><a href="https://vk.com/public223026543">Скорее
+                        тыкай сюда<i class='bx bxs-hand-left'></i></a><br>
+                        Почта Ученического Совета:<br><a href="mailto:studentcouncil@inbox.ru">Всегда
+                        рады вашим письмам <i class='bx bxs-heart'></i></a>
+                    </p>
+                </div>
                 <!-- Grid column -->
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                     <!-- Links -->
@@ -116,7 +135,6 @@
                         mou_shkola_2@mail.ru
                     </p>
                     <p> + 7 (492) 412-23-47</p>
-                    <p><a href=""</p>
                 </div>
                 <!-- Grid column -->
             </div>

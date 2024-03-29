@@ -1,1 +1,1 @@
-from . import users, news, roles
+from . import users, news, roles, letter

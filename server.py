@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session
+from data.users import User
+from forms.authorization import LoginForm
 import os
 import datetime as dt
 from flask_login import LoginManager, login_user, login_required, logout_user
@@ -9,14 +11,42 @@ from flask_login import current_user
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '&&&&&&&&&&'
 app.config['PERMANENT_SESSION_LIFETIME'] = dt.timedelta(days=1)
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("base.html")
+    return render_template("index.html")
+
+
+@app.route('/authorization', methods=['GET', 'POST'])
+def authorization():
+    form = LoginForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.nickname == form.nickname.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect("/")
+        return render_template('authorization.html',
+                               message="Неправильный логин или пароль",
+                               form=form)
+    return render_template('authorization.html', title='Авторизация', form=form)
 
 
 def main():

@@ -12,20 +12,12 @@ class Role(SqlAlchemyBase, SerializerMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True, unique=True)
     secret_key = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    color = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     is_activity = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+    users = orm.relationship("User", back_populates='roles')
 
     def set_key(self, key):
         self.secret_key = generate_password_hash(key)
 
     def check_key(self, key):
         return check_password_hash(self.secret_key, key)
-
-
-association_table = sqlalchemy.Table(
-    'association',
-    SqlAlchemyBase.metadata,
-    sqlalchemy.Column('users', sqlalchemy.Integer,
-                      sqlalchemy.ForeignKey('users.id')),
-    sqlalchemy.Column('roles', sqlalchemy.Integer,
-                      sqlalchemy.ForeignKey('roles.id'))
-)

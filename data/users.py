@@ -18,10 +18,13 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     news = orm.relationship("News", back_populates='user')
-    roles = orm.relationship("Role",
-                             secondary="association",
-                             backref="user")
+    letters = orm.relationship("Letter",
+                               secondary="association",
+                               backref="users")
+    roles_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("roles.id"), default=0)
     avatar = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    roles = orm.relationship('Role')
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
