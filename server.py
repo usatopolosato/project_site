@@ -2,7 +2,10 @@ from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session
 from data.users import User
+from data.letter import Letter
+from data.roles import Role
 from forms.authorization import LoginForm
+from forms.feedback import LetterForm
 import os
 import datetime as dt
 from flask_login import LoginManager, login_user, login_required, logout_user
@@ -28,10 +31,20 @@ def logout():
     return redirect("/")
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    feedback_form = LetterForm()
+    if feedback_form.validate_on_submit():
+        if current_user.is_authenticated:
+            db_sess = db_session.create_session()
+            letter = Letter(title=feedback_form.title.data,
+                            content=feedback_form.content.data)
+            for role in db_sess.query(Role).filter(Role.id >= 3).all():
+                for user in role.users:
+                    user.letters.append(letter)
+            db_sess.commit()
+    return render_template("index.html", feedback_form=feedback_form)
 
 
 @app.route('/authorization', methods=['GET', 'POST'])
