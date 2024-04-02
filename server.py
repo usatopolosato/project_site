@@ -37,8 +37,12 @@ def index():
     feedback_form = LetterForm()
     if feedback_form.validate_on_submit():
         if current_user.is_authenticated:
+            choice = {0: 'Предложение', 1: 'Жалоба'}
+            if len(feedback_form.content.data) < 5 or len(feedback_form.content.data.split()) < 2:
+                return render_template("index.html", feedback_form=feedback_form,
+                                       message='Ошибка обработки сообщения')
             db_sess = db_session.create_session()
-            letter = Letter(title=feedback_form.title.data,
+            letter = Letter(title=choice[feedback_form.data['title']],
                             content=feedback_form.content.data)
             for role in db_sess.query(Role).filter(Role.id >= 3).all():
                 for user in role.users:
