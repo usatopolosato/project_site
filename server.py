@@ -2,7 +2,10 @@ from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session
 from data.users import User
-from forms.authorization import LoginForm
+from data.letter import Letter
+from data.roles import Role
+from forms.authorization import LoginForm, RegisterForm
+from forms.feedback import LetterForm
 import os
 import datetime as dt
 from flask_login import LoginManager, login_user, login_required, logout_user
@@ -28,10 +31,24 @@ def logout():
     return redirect("/")
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    feedback_form = LetterForm()
+    if feedback_form.validate_on_submit():
+        if current_user.is_authenticated:
+            choice = {0: 'Предложение', 1: 'Жалоба'}
+            if len(feedback_form.content.data) < 5 or len(feedback_form.content.data.split()) < 2:
+                return render_template("index.html", feedback_form=feedback_form,
+                                       message='Ошибка обработки сообщения')
+            db_sess = db_session.create_session()
+            letter = Letter(title=choice[feedback_form.data['title']],
+                            content=feedback_form.content.data)
+            for role in db_sess.query(Role).filter(Role.id >= 3).all():
+                for user in role.users:
+                    user.letters.append(letter)
+            db_sess.commit()
+    return render_template("index.html", feedback_form=feedback_form)
 
 
 @app.route('/authorization', methods=['GET', 'POST'])
@@ -47,6 +64,23 @@ def authorization():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('authorization.html', title='Авторизация', form=form)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    form = RegisterForm()
+    user = User()
+    user.nickname = form.nickname.data
+    user.set_password(form.password.data)
+    user.surname = form.surname.data
+    user.name = form.name.data
+    user.patronymic = form.patronymic.data
+    user.about = form.about.data
+    print(form.avatar.data)
+    db_sess = db_session.create_session()
+    db_sess.add(user)
+    db_sess.commit()
+    return render_template('registration.html', title='registration', form=form)
 
 
 def main():

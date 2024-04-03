@@ -37,18 +37,19 @@
         </div>
         <label>Укажите ФИО:</label>
         <div class="input-box">
-            {{ form.nickname(type="text", placeholder='Фамилия')}}
+            {{ form.surname(type="text", placeholder='Фамилия')}}
         </div>
         <div class="input-box">
-            {{ form.nickname(type="text", placeholder='Имя')}}
+            {{ form.name(type="text", placeholder='Имя')}}
         </div>
         <div class="input-box">
-            {{ form.nickname(type="text", placeholder='Фамилия')}}
+            {{ form.patronymic(type="text", placeholder='Фамилия')}}
         </div>
-        <label for="about">Немного о себе</label>
-        <textarea class="form-control" id="about" rows="3" name="about"></textarea>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <button type="submit" class="i-btn">Зарегистрироваться</button>
+
+        {{ form.avatar(type="file") }}
+        <label>Немного о себе</label>
+            {{ form.about(type="textarea", rows="3")}}
+        <p>{{ form.submit(type="submit", class="i-btn") }}</p>
 
         <div class="register-link">
             <p>Если у вас уже есть аккаунт, то скорее <a href="/">авторизуйтесь</a>!</p>
