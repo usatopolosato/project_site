@@ -46,10 +46,11 @@
             {{ form.patronymic(type="text", placeholder='Фамилия')}}
         </div>
 
-        <div>{{ form.avatar(type="file") }}</div>
+        <div><p>Загрузите свою фотографию</p>
+            {{ form.avatar(type="file") }}</div>
         <div>
             <br>
-            <label>Немного о себе</label>
+            <p>Немного о себе</p>
             {{ form.about(type="textarea", placeholder="Напиши что-нибудь интересненькое",
             style='min-height: 75px; width: 100%')}}
             <br>
