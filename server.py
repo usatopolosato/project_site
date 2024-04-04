@@ -69,18 +69,26 @@ def authorization():
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     form = RegisterForm()
-    user = User()
-    user.nickname = form.nickname.data
-    user.set_password(form.password.data)
-    user.surname = form.surname.data
-    user.name = form.name.data
-    user.patronymic = form.patronymic.data
-    user.about = form.about.data
-    print(form.avatar.data)
-    db_sess = db_session.create_session()
-    db_sess.add(user)
-    db_sess.commit()
-    return render_template('registration.html', title='registration', form=form)
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.nickname == form.nickname.data).first()
+        if user:
+            return render_template('registration.html',
+                                   message="Пользователь с таким логином уже существует...",
+                                   form=form)
+        user = User()
+        user.nickname = form.nickname.data
+        user.set_password(form.password.data)
+        user.surname = form.surname.data
+        user.name = form.name.data
+        user.patronymic = form.patronymic.data
+        user.about = form.about.data
+        user.avatar = form.avatar.data
+        print(user.avatar)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect("/authorization")
+    return render_template('registration.html', title='Регистрация', form=form)
 
 
 def main():

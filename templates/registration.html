@@ -46,13 +46,19 @@
             {{ form.patronymic(type="text", placeholder='Фамилия')}}
         </div>
 
-        {{ form.avatar(type="file") }}
-        <label>Немного о себе</label>
-            {{ form.about(type="textarea", rows="3")}}
-        <p>{{ form.submit(type="submit", class="i-btn") }}</p>
+        <div>{{ form.avatar(type="file") }}</div>
+        <div>
+            <br>
+            <label>Немного о себе</label>
+            {{ form.about(type="textarea", placeholder="Напиши что-нибудь интересненькое",
+            style='min-height: 75px; width: 100%')}}
+            <br>
+        </div>
+        <p><br>{{ form.submit(type="submit", class="i-btn") }}</p>
 
         <div class="register-link">
-            <p>Если у вас уже есть аккаунт, то скорее <a href="/">авторизуйтесь</a>!</p>
+            <p>Если у вас уже есть аккаунт, то скорее <a href="/authorization">авторизуйтесь</a>!
+            </p>
         </div>
         <div style="color: red;">{{ message }}</div>
     </form>
