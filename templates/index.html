@@ -79,4 +79,35 @@
 
 
 </pre>
+<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-f.jpeg') no-repeat; background-size: cover; background-position: center;">
+    <a name="feedback"></a>
+<div class="form-outline w-50 mb-4" style="transform: translateX(10%)">
+    <form action="" method="post">
+        <h2 align="center" style="color: white;">Жалобы и Предложения</h2>
+        <br>
+        {{ feedback_form.hidden_tag() }}
+        {{ feedback_form.title(class="form-select")}}<br>
+        {% for error in feedback_form.title.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        {{ feedback_form.content(class="form-control", style='min-height: 200px;',
+        placeholder='Мы готовы становиться лучше для вас') }}<br>
+        {% for error in feedback_form.content.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+        <p>{{ feedback_form.submit(type="submit", class="btn btn-warning") }}</p>
+        {% else %}
+        <p>
+            <button type="button" class="btn btn-warning" disabled>Отправить</button>
+        </p>
+        {% endif %}
+        <div style="color: red;">{{ message }}</div>
+    </form>
+</div>
+</div>
 {% endblock %}
