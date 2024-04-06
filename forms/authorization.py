@@ -18,5 +18,4 @@ class RegisterForm(FlaskForm):
     name = StringField('Введите имя', validators=[DataRequired()])
     patronymic = StringField('Введите отчество', validators=[DataRequired()])
     about = StringField('О себе', validators=[DataRequired()])
-    avatar = FileField('Фото', validators=[FileRequired(), FileAllowed(['txt'], 'text files only')])
     submit = SubmitField('Зарегистрироваться')

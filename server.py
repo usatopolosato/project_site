@@ -70,6 +70,7 @@ def authorization():
 def registration():
     form = RegisterForm()
     if form.data['submit']:
+        avatar = request.files['avatar']
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.nickname == form.nickname.data).first()
         if user:
@@ -83,8 +84,7 @@ def registration():
         user.name = form.name.data
         user.patronymic = form.patronymic.data
         user.about = form.about.data
-        # user.avatar = form.avatar.data
-        print(user.avatar)
+        user.avatar = avatar.read()
         db_sess.add(user)
         db_sess.commit()
         return redirect("/authorization")
