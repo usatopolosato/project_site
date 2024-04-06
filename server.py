@@ -69,7 +69,7 @@ def authorization():
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     form = RegisterForm()
-    if form.validate_on_submit():
+    if form.data['submit']:
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.nickname == form.nickname.data).first()
         if user:
@@ -83,7 +83,7 @@ def registration():
         user.name = form.name.data
         user.patronymic = form.patronymic.data
         user.about = form.about.data
-        user.avatar = form.avatar.data
+        # user.avatar = form.avatar.data
         print(user.avatar)
         db_sess.add(user)
         db_sess.commit()
