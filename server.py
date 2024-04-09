@@ -34,7 +34,21 @@ def logout():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    db_sess = db_session.create_session()
     feedback_form = LetterForm()
+    top_users = []
+    top_img = []
+    for role in db_sess.query(Role).filter(Role.id >= 1, Role.id < 8).all():
+        for i, user in enumerate(role.users):
+            top_users.append(user)
+            IMG = f'static/img/top/{i}-top.png'
+            f = user.avatar
+            try:
+                with open(IMG, "wb+") as file:
+                    file.write(f)
+                top_img.append(IMG)
+            except Exception:
+                continue
     if feedback_form.validate_on_submit():
         if current_user.is_authenticated:
             choice = {0: 'Предложение', 1: 'Жалоба'}
@@ -48,7 +62,8 @@ def index():
                 for user in role.users:
                     user.letters.append(letter)
             db_sess.commit()
-    return render_template("index.html", feedback_form=feedback_form)
+    return render_template("index.html", feedback_form=feedback_form,
+                           top_list=top_img, top_users=top_users)
 
 
 @app.route('/authorization', methods=['GET', 'POST'])
