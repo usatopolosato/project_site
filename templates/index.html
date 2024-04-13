@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-
+.round-obr {
+            border-radius: 50%;
+        }
 {% block content %}
 <h1 align="center">ГЛАВНАЯ СТРАНИЧКА САЙТА</h1>
 <pre>
+
 
 
 
@@ -84,13 +87,19 @@
     <h1>Представляем вам ученический совет</h1>
 {% for user in top_users %}
 <div>
-    <div>
-        <h3>{{ user.surname }} {{ user.name }} {{ user.patronymic }}</h3>
-        <p style='font-size:20px;'>{{ user.about }}</p>
-    </div>
-    <div>
-        <img src={{ top_list[loop.index0] }} alt="Фото пользователя" style="height: 100%; width: 100%;">
-    </div>
+    <table>
+    <tr>
+        <td rowspan="2">
+            <div>
+                <img src={{ top_list[loop.index0] }} alt="Фото пользователя" class="round-obr" style="height:50%; float:left; width:50%">
+            </div>
+        </td>
+        <td><h3>{{ user.surname }} {{ user.name }} {{ user.patronymic }}</h3></td>
+    </tr>
+    <tr>
+        <td><p style='font-size:20px;'>{{ user.about }}</p></td>
+    </tr>
+    </table>
 </div>
 {% endfor %}
 </div>

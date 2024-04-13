@@ -1,3 +1,6 @@
+import io
+
+from PIL import Image
 from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session
@@ -43,9 +46,18 @@ def index():
             top_users.append(user)
             IMG = f'static/img/top/{i}-top.png'
             f = user.avatar
+            # rawIO = io.BytesIO(f)
+            # rawIO.seek(0)
+            # byteImg = Image.open(rawIO)
+            # byteImg.save('test.png', 'PNG')
             try:
                 with open(IMG, "wb+") as file:
                     file.write(f)
+                img = Image.open(f'static/img/top/{i}-top.png')
+                w = img.size[0]
+                h = img.size[1]
+                image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
+                image.save(f'static/img/top/{i}-top.png')
                 top_img.append(IMG)
             except Exception:
                 continue
