@@ -21,7 +21,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     letters = orm.relationship("Letter",
                                secondary="association",
                                backref="users")
-    roles_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("roles.id"), default=0)
+    roles_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("roles.id"), default=1)
     avatar = sqlalchemy.Column(sqlalchemy.BINARY, nullable=True)
 
     roles = orm.relationship('Role')
