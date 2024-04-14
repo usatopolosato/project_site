@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-.round-obr {
-            border-radius: 50%;
-        }
+
 {% block content %}
 <h1 align="center">ГЛАВНАЯ СТРАНИЧКА САЙТА</h1>
 <pre>
@@ -91,7 +89,7 @@
     <tr>
         <td rowspan="2">
             <div>
-                <img src={{ top_list[loop.index0] }} alt="Фото пользователя" class="round-obr" style="height:50%; float:left; width:50%">
+                <img src={{ top_list[loop.index0] }} alt="Фото пользователя" class="round-top" style="height:50%; float:left; width:50%">
             </div>
         </td>
         <td><h3>{{ user.surname }} {{ user.name }} {{ user.patronymic }}</h3></td>
