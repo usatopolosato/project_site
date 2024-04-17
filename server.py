@@ -6,6 +6,7 @@ from data.letter import Letter
 from data.roles import Role
 from forms.authorization import LoginForm, RegisterForm
 from forms.feedback import LetterForm
+from forms.users import UserForm, ApiForm
 import os
 import datetime as dt
 from flask_restful import reqparse, abort, Api, Resource
@@ -91,6 +92,43 @@ def registration():
         db_sess.commit()
         return redirect("/authorization")
     return render_template('registration.html', title='Регистрация', form=form)
+
+
+@app.route('/profile', methods=['POST', 'GET'])
+def profile():
+    session = db_session.create_session()
+    exit_form = UserForm()
+    api_form = ApiForm()
+    if exit_form.data['submit']:
+        return redirect("/logout")
+    if api_form.data['submit']:
+        roles = session.query(Role).all()
+        key = api_form.data['apikey']
+        for role in roles:
+            if role.check_key(key) and role.is_activity:
+                if current_user.roles_id > role.id:
+                    param = {'api_form': api_form,
+                             'exit_form': exit_form,
+                             'message': 'Ваша роль лучше чем та, которую вы пытаетесь активировать'}
+                    return render_template('user.html', **param)
+                current_user.roles_id = role.id
+                role.is_activity = 0
+                session.commit()
+                break
+    role = session.get(Role, current_user.roles_id)
+    letters = current_user.letters
+    IMG = f'static/img/user/avatar.png'
+    f = current_user.avatar
+    print(f)
+    with open(IMG, "wb+") as file:
+        file.write(f)
+    param = {'api_form': api_form,
+             'exit_form': exit_form,
+             'status': 'role.name',
+             'letters': letters,
+             'avatar': IMG
+             }
+    return render_template('user.html', **param)
 
 
 def main():

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {{ api_form.hidden_tag() }}
+    <p>
+        {{ api_form.apikey.label }}<br>
+        {{ api_form.apikey(class="form-control") }}<br>
+        {% for error in api_form.apikey.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    </p>
+    <p>{{ api_form.submit(type="submit", class="btn btn-info") }}</p>
+    <div style="color: red;">{{ message }}</div>
+</form>
+<div>
+    <h1>Почта</h1>
+    {% for item in letters%}
+    <div class="col-md6 border rounded">
+        <h2>{{item.title}}</h2>
+        <div>
+            {{item.content}}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<form action="" method="post">
+    {{ exit_form.hidden_tag() }}
+    <p>{{ exit_form.submit(type="submit", class="btn btn-danger") }}</p>
+</form>
+{% endblock %}
