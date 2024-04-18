@@ -3,19 +3,22 @@ import io
 from PIL import Image
 from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
-from data import db_session
+from data import db_session, users_resource, resource_roles
 from data.users import User
 from data.letter import Letter
 from data.roles import Role
 from forms.authorization import LoginForm, RegisterForm
 from forms.feedback import LetterForm
+from forms.users import UserForm, ApiForm
 import os
 import datetime as dt
+from flask_restful import reqparse, abort, Api, Resource
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_login import current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '&&&&&&&&&&'
+api = Api(app)
 app.config['PERMANENT_SESSION_LIFETIME'] = dt.timedelta(days=1)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -118,9 +121,51 @@ def registration():
     return render_template('registration.html', title='Регистрация', form=form)
 
 
+@app.route('/profile', methods=['POST', 'GET'])
+def profile():
+    session = db_session.create_session()
+    exit_form = UserForm()
+    api_form = ApiForm()
+    if exit_form.data['submit']:
+        return redirect("/logout")
+    if api_form.data['submit']:
+        roles = session.query(Role).all()
+        key = api_form.data['apikey']
+        for role in roles:
+            if role.check_key(key) and role.is_activity:
+                if current_user.roles_id > role.id:
+                    param = {'api_form': api_form,
+                             'exit_form': exit_form,
+                             'message': 'Ваша роль лучше чем та, которую вы пытаетесь активировать'}
+                    return render_template('user.html', **param)
+                current_user.roles_id = role.id
+                role.is_activity = 0
+                session.commit()
+                break
+    role = session.get(Role, current_user.roles_id)
+    letters = current_user.letters
+    IMG = f'static/img/user/avatar.png'
+    f = current_user.avatar
+    print(f)
+    with open(IMG, "wb+") as file:
+        file.write(f)
+    param = {'api_form': api_form,
+             'exit_form': exit_form,
+             'status': 'role.name',
+             'letters': letters,
+             'avatar': IMG
+             }
+    return render_template('user.html', **param)
+
+
 def main():
     db_session.global_init('db/datebase.db')
     port = int(os.environ.get("PORT", 5000))
+    api.add_resource(users_resource.UsersListResource, '/api/users')
+    api.add_resource(users_resource.UsersResource, '/api/users/<int:user_id>')
+    api.add_resource(resource_roles.RoleListResource, '/api/roles')
+    api.add_resource(resource_roles.RoleResource, '/api/roles/<int:role_id>')
+    api.add_resource(resource_roles.KeyResource, '/api/key_roles/<int:role_id>')
     app.run(host='0.0.0.0', port=port)
 
 
