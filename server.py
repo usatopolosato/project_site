@@ -39,7 +39,7 @@ def logout():
     return redirect("/")
 
 
-@app.route('/news/<int:id_news>',  methods=['GET', 'POST'])
+@app.route('/news/<int:id_news>', methods=['GET', 'POST'])
 @login_required
 def add_news(id_news):
     if id_news == 1:
@@ -78,7 +78,9 @@ def add_news(id_news):
             news = News()
             news.title = form.title.data
             news.content = form.content.data
-            news.video = form.video.data
+            video = form.video.data
+            video = video.replace('youtu.be/', 'www.youtube.com/embed/')
+            news.video = video
             news.type = 3
             current_user.news.append(news)
             db_sess.merge(current_user)
@@ -88,9 +90,9 @@ def add_news(id_news):
                                form=form)
 
 
-@app.route('/news/<int:id>', methods=['GET', 'POST'])
+@app.route('/news/<int:id_news>/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_news(id):
+def edit_news(id_news, id):
     db_sess = db_session.create_session()
     news = db_sess.query(News).filter(News.id == id,
                                       News.user == current_user
@@ -157,7 +159,9 @@ def edit_news(id):
             if news:
                 news.title = form.title.data
                 news.content = form.content.data
-                news.video = form.video.data
+                video = form.video.data
+                video = video.replace('youtu.be/', 'www.youtube.com/embed/')
+                news.video = video
                 db_sess.commit()
                 return redirect('/')
             else:
@@ -166,6 +170,20 @@ def edit_news(id):
                                title='Редактирование новости',
                                form=form
                                )
+
+
+@app.route('/letter_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def letter_delete(id):
+    db_sess = db_session.create_session()
+    for letter in current_user.letters:
+        if letter.id == id:
+            current_user.letters.remove(letter)
+            db_sess.merge(current_user)
+            db_sess.commit()
+        else:
+            abort(404)
+    return redirect('/profile')
 
 
 @app.route('/news_delete/<int:id>', methods=['GET', 'POST'])

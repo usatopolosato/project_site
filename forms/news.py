@@ -20,5 +20,6 @@ class NewsForm2(FlaskForm):
 class NewsForm3(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField("Содержание", validators=[DataRequired()])
-    video = StringField("Ссылка на видео", validators=[DataRequired()])
+    video = StringField("Ссылка на видео(поддерживается только YouTube)",
+                        validators=[DataRequired()])
     submit = SubmitField('Применить')

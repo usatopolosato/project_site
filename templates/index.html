@@ -45,83 +45,84 @@
     </div>
 </div>
 {% endif %}
-<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-n.jpg') no-repeat; background-size: cover; background-position: center;">
+<h1 align="center">Новости нашей школы</h1>
+<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-n.jpg') no-repeat; background-size: cover; background-position: center; font-size:30px">
     <a name="news"></a>
     <div style="transform: translateX(10%)">
-        <h1 align="center">Новости нашей школы</h1>
         {% for item in news%}
-        <div class="col-md6 border rounded">
-            {% if item.type == 1 %}
-                <h2>{{item.title}}</h2>
-                <div>
-                    {{item.content}}
-                </div>
-                <div>
-                    Автор - {{item.user.name}}
-                </div>
-                {% if current_user.is_authenticated and current_user == item.user %}
-                <div>
-                    <a href="/news/{{ item.id }}" class="btn btn-warning">
-                        Изменить
-                    </a>
-                    <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
-                        Удалить
-                    </a>
-                </div>
-                {% endif %}
+        {% if item.type == 1 %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
             </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/1/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
         {% elif item.type == 2 %}
-            <div class="col-md6 border rounded">
-                <h2>{{item.title}}</h2>
-                <div>
-                    {{item.content}}
-                </div>
-                <div>
-                    <img src={{ item.photo }} alt="Фото, прикрепленное к новости">
-                </div>
-                <div>
-                    Автор - {{item.user.name}}
-                </div>
-                {% if current_user.is_authenticated and current_user == item.user %}
-                <div>
-                    <a href="/news/{{ item.id }}" class="btn btn-warning">
-                        Изменить
-                    </a>
-                    <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
-                        Удалить
-                    </a>
-                </div>
-                {% endif %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
             </div>
-        {% elif item.types == 3 %}
-            <div class="col-md6 border rounded">
-                <h2>{{item.title}}</h2>
-                <div>
-                    {{item.content}}
-                </div>
-                <div>
-                    <video src={{ item.video }} controls>
-                        <p>
-                            Ваш браузер не поддерживает HTML5 видео. Используйте
-                            <a href={{ item.video }}>ссылку на видео</a> для доступа. НУ или что-то пошло не так.
-                        </p>
-                    </video>
-                </div>
-                <div>
-                    Автор - {{item.user.name}}
-                </div>
-                {% if current_user.is_authenticated and current_user == item.user %}
-                <div>
-                    <a href="/news/{{ item.id }}" class="btn btn-warning">
-                        Изменить
-                    </a>
-                    <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
-                        Удалить
-                    </a>
-                </div>
-                {% endif %}
+            <div>
+                <img src={{ item.photo }} alt="Фото, прикрепленное к новости"
+                     style="width:450px; height:500px">
             </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/2/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% elif item.type == 3 %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
+            </div>
+            <div>
+                <iframe width="560" height="315"
+                        src={{ item.video }}
+                        frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/3/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
         {% endif %}
+        <pre>
+
+        </pre>
         {% endfor %}
     </div>
 </div>
