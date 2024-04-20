@@ -3,7 +3,7 @@
 {% block content %}
 <form action="" method="post">
     {{ api_form.hidden_tag() }}
-    <div>
+    <div class="col-md6 border rounded border-3">
         <table>
             <tr>
                 <td rowspan="2">
@@ -23,15 +23,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><h3>{{ surname }} {{ name }} {{ patronymic }}</h3></td>
+                <td><h3 style="font-size:30px;">{{ surname }} {{ name }} {{ patronymic }}</h3></td>
             </tr>
             <tr>
                 <td></td>
@@ -46,44 +38,47 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-                <td><p style='font-size:20px;'>{{ about }}</p></td>
+                <td>
+                    <p style='font-size:30px; text-decoration: underline; color: orange; text-decoration-style: dashed;'>
+                        {{ status }}</p></td>
             </tr>
         </table>
     </div>
-    <p>
-        {{ api_form.apikey.label }}<br>
-        {{ api_form.apikey(class="form-control") }}<br>
-        {% for error in api_form.apikey.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
-    </p>
-    {% endfor %}
-    </p>
-    <p>{{ api_form.submit(type="submit", class="btn btn-info") }}</p>
-    <div style="color: red;">{{ message }}</div>
+    <pre>
+
+    </pre>
+    <div class="col-md6 border rounded border-3">
+        <h4>{{ api_form.apikey.label }}</h4>
+        <p>
+            {{ api_form.apikey(class="form-control", style='font-size: 20px;') }}<br>
+            {% for error in api_form.apikey.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
+        {{ api_form.submit(type="submit", class="btn btn-info", style='font-size: 20px;') }}
+        </p>
+        <div style="color: red;">{{ message }}</div>
+    </div>
 </form>
-<div>
-    <h1>Почта</h1>
+<div style="font-size:30px;">
+    <h1 align="center">Почта</h1>
+    {% if letters %}
     {% for item in letters%}
     <div class="col-md6 border rounded">
         <h2>{{item.title}}</h2>
-        <div>
+        <div class="col-md6 border border-4">
             {{item.content}}
         </div>
     </div>
+    <pre>
+        </pre>
     {% endfor %}
+    {% else %}
+    <div class="col-md6 border rounded">
+        Пока сообщений нет.
+    </div>
+    {% endif %}
 </div>
-<form action="" method="post">
-    {{ exit_form.hidden_tag() }}
-    <p>{{ exit_form.submit(type="submit", class="btn btn-danger") }}</p>
-</form>
+<a href="/logout" role="button" class="btn btn-danger btn-lg">Выйти</a>
 {% endblock %}
