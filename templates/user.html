@@ -3,6 +3,62 @@
 {% block content %}
 <form action="" method="post">
     {{ api_form.hidden_tag() }}
+    <div>
+        <table>
+            <tr>
+                <td rowspan="2">
+                    <div>
+                        <img src={{ avatar }} alt="Фото пользователя" class="round-top">
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><h3>{{ surname }} {{ name }} {{ patronymic }}</h3></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td><p style='font-size:20px;'>{{ about }}</p></td>
+            </tr>
+        </table>
+    </div>
     <p>
         {{ api_form.apikey.label }}<br>
         {{ api_form.apikey(class="form-control") }}<br>

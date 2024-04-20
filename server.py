@@ -146,6 +146,10 @@ def profile():
     letters = current_user.letters
     IMG = f'static/img/user/avatar.png'
     f = current_user.avatar
+    surname = current_user.surname
+    name = current_user.name
+    patronymic = current_user.patronymic
+    about = current_user.about
     print(f)
     with open(IMG, "wb+") as file:
         file.write(f)
@@ -153,7 +157,11 @@ def profile():
              'exit_form': exit_form,
              'status': 'role.name',
              'letters': letters,
-             'avatar': IMG
+             'avatar': IMG,
+             'surname': surname,
+             'name': name,
+             'patronymic': patronymic,
+             'about': about
              }
     return render_template('user.html', **param)
 
