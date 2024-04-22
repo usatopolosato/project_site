@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet"
+          href="../static/css/style_authorization.css">
+    <title>Регистрация</title>
+</head>
+<body>
+<div class="wrapper">
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <h1>Регистрация</h1>
+        <div class="input-box">
+            {{ form.nickname(type="text", placeholder='Username') }} <i
+                class='bx bx-user-circle'></i><br>
+            {% for error in form.nickname.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="input-box">
+            {{ form.password(type="password", placeholder='Password')}} <i
+                class='bx bx-lock'></i><br>
+            {% for error in form.password.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+        </div>
+        <label>Укажите ФИО:</label>
+        <div class="input-box">
+            {{ form.surname(type="text", placeholder='Фамилия')}}
+        </div>
+        <div class="input-box">
+            {{ form.name(type="text", placeholder='Имя')}}
+        </div>
+        <div class="input-box">
+            {{ form.patronymic(type="text", placeholder='Отчество')}}
+        </div>
+
+        <div><p>Загрузите свою фотографию</p>
+            <input type="file" class="form-control-file" name="avatar"></div>
+        <div>
+            <br>
+            <p>Немного о себе</p>
+            {{ form.about(type="textarea", placeholder="Напиши что-нибудь интересненькое",
+            style='min-height: 75px; width: 100%')}}
+            <br>
+        </div>
+        <p><br>{{ form.submit(type="submit", class="i-btn") }}</p>
+
+        <div class="register-link">
+            <p>Если у вас уже есть аккаунт, то скорее <a href="/authorization">авторизуйтесь</a>!
+            </p>
+        </div>
+        <div style="color: red;">{{ message }}</div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="../static/css/style_index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .round-obr {
+            border-radius: 50%;
+        }
+        .round-top {
+            width: 250px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(26, 9, 9, 0.4);
+            padding: 0.6em;
+            margin-bottom: 2em;
+        }
+        .btn-outline-primar{color:#007bff;border-color:#007bff}
+        .btn-outline-primar:hover{color:#fff;background-color:#007bff;border-color:#007bff}
+        .btn-outline-primar.focus,
+        .btn-outline-primar:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+        .btn-outline-primar.disabled,
+        .btn-outline-primar:disabled{color:#007bff;background-color:transparent}
+        .btn-outline-primar:not(:disabled):not(.disabled).active,
+        .btn-outline-primar:not(:disabled):not(.disabled):active,.show>
+        .btn-outline-primar.dropdown-toggle{color:#fff;background-color:#007bff;border-color:#007bff}
+        .btn-outline-primar:not(:disabled):not(.disabled).active:focus,
+        .btn-outline-primar:not(:disabled):not(.disabled):active:focus,.show>
+        .btn-outline-primar.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+        .btn-outline-primar{
+            border-radius: 50%;
+            width: 3em;
+            height: 3em;
+        }
+
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <title>{{ title }}</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#"><img src="../../static/img/2sch.jpg" height="50"
+                                                      width="50" class="round-obr"
+                                                      alt="..."></a>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/#news"><img
+                                src="../../static/img/news.png" width="45" height="35"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#top"><img src="../../static/img/top.png" width="45"
+                                                          height="35"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#feedback"><img src="../../static/img/zhaloba.png" width="45"
+                                                          height="35"></a>
+                    </li>
+                </ul>
+                <form action="https://vk.com/2school33" target="VK">
+                    <button class="btn btn-outline-primar" type="submit"><img
+                            src="../../static/img/VK_Logo.png" width="24" height="24" alt="..."></button>
+                </form>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Поиск по сайту..."
+                           aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Искать</button>
+                </form>
+                {% if current_user.is_authenticated %}
+                <span>&nbsp;&nbsp;&nbsp;
+                   <a class="navbar-brand" href="/profile">{{ current_user.surname }} {{
+                    current_user.name }}</a>
+                        </span>
+                {% else %}
+                <span>&nbsp;
+                        <a href="authorization">
+                    <button class="btn btn-outline-primary" type="submit">Войти</button>
+                </a>
+                        </span>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>
+<main role="main" class="container">
+    {% block content %} {% endblock %}
+</main>
+<footer class="text-center text-lg-start bg-body-tertiary text-muted"
+        style="background-color: rgba(0, 0, 0, 0.15);">
+    <!-- Section: Social media -->
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-5">Наименование учреждения</h6>
+                    <p class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3">Муниципальное бюджетное общеобразовательное
+                            учреждение
+                            "Средняя общеобразовательная школа №2 с углубленным изучением отдельных
+                            предметов имени кавалера ордена Красной Звезды А.А. Кузора"
+                        </i></p>
+                </div>
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-5">Наша Медиа</h6>
+                    <p class="text-uppercase fw-bold mb-4">
+                        Группа ВТОРАЯ МЕДИА:<br><a href="https://vk.com/public223026543">Скорее
+                        тыкай сюда<i class='bx bxs-hand-left'></i></a><br>
+                        Почта Ученического Совета:<br><a href="mailto:studentcouncil@inbox.ru">Всегда
+                        рады вашим письмам <i class='bx bxs-heart'></i></a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">Контакты</h6>
+                    <p>601505, Россия, Владимирская область, город Гусь-Хрустальный, улица
+                        Микрорайон, дом 53.</p>
+                    <p>
+                        mou_shkola_2@mail.ru
+                    </p>
+                    <p> +7 (492) 412-23-47</p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 "by usatopolosato and jefe"
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+</body>
+</html>

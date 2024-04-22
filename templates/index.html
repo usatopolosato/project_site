@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated and current_user.roles_id >= 4%}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop">
+    Создать новость
+</button>
+<!-- Модальное окно -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100 text-center" id="exampleModalLabel">Тип
+                    новости</h4>
+            </div>
+            <div class="modal-body">
+                <p align="center">
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <a href="/news/1" role="button" class="btn btn-primary btn-lg">Новость,
+                            содержащая только текст</a>
+                    </div>
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <a href="/news/2" role="button" class="btn btn-primary btn-lg">Новость,
+                            содержащая текст + фото</a>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <a href="/news/3" role="button" class="btn btn-primary btn-lg">Новость,
+                            содержащая текст + видео</a></p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<h1 align="center">Новости нашей школы</h1>
+<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-n.jpg') no-repeat; background-size: cover; background-position: center; font-size:30px">
+    <a name="news"></a>
+    <div style="transform: translateX(10%)">
+        {% for item in news%}
+        {% if item.type == 1 %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
+            </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/1/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% elif item.type == 2 %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
+            </div>
+            <div>
+                <img src={{ item.photo }} alt="Фото, прикрепленное к новости"
+                     style="width:450px; height:500px">
+            </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/2/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% elif item.type == 3 %}
+        <div class="col-md6 border rounded" style="background-color: white">
+            <h2>{{item.title}}</h2>
+            <div>
+                {{item.content}}
+            </div>
+            <div>
+                <iframe width="560" height="315"
+                        src={{ item.video }}
+                        frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div>
+                Автор - {{ item.user.surname }} {{ item.user.name }}
+            </div>
+            {% if current_user.is_authenticated and current_user.roles_id >= 4 %}
+            <div>
+                <a href="/news/3/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <pre>
+
+        </pre>
+        {% endfor %}
+    </div>
+</div>
+<h1 align="center">Представляем вам ученический совет</h1>
+<div style="transform: translateX(-10%);width: 120%; object-fit: cover; min-height: 50vh; background: url('../static/img/background-t.jpeg'); background-size: cover;">
+    <a name="top"></a>
+    {% for user in top_users %}
+    <div class="border border-3">
+        <div style="transform: translateX(10%)">
+            <table>
+                <tr>
+                    <td rowspan="3">
+                        <div>
+                            <img src={{ top_list[loop.index0] }} alt="Фото пользователя"
+                                 class="round-top">
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><h3 class="text border rounded"
+                            style="font-size:30px; padding: 10px 50px 10px 50px; background-color: white; width: 100%">
+                        {{ user.surname }} {{ user.name }} {{ user.patronymic }}</h3></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td><p class="text border rounded"
+                           style="font-size:30px; padding: 5px; color: orange; background-color: white; width: 100%">
+                        {{ user.roles.name }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td><p class="text border rounded"
+                           style="font-size:30px; padding: 20px; background-color: white; width: 100%">
+                        {{ user.about }}</p></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-f.jpeg') no-repeat; background-size: cover; background-position: center;">
+    <a name="feedback"></a>
+    <div class="form-outline w-50 mb-4" style="transform: translateX(10%)">
+        <form action="" method="post">
+            <h2 align="center" style="color: white;">Жалобы и Предложения</h2>
+            <br>
+            {{ feedback_form.hidden_tag() }}
+            {{ feedback_form.title(class="form-select")}}<br>
+            {% for error in feedback_form.title.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {{ feedback_form.content(class="form-control", style='min-height: 200px;',
+            placeholder='Мы готовы становиться лучше для вас') }}<br>
+            {% for error in feedback_form.content.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% if current_user.is_authenticated %}
+            <p>{{ feedback_form.submit(type="submit", class="btn btn-warning") }}</p>
+            {% else %}
+            <p>
+                <button type="button" class="btn btn-warning" disabled>Отправить</button>
+            </p>
+            {% endif %}
+            <div style="color: red;">{{ message }}</div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {{ api_form.hidden_tag() }}
+    <div class="col-md6 border rounded border-3">
+        <table>
+            <tr>
+                <td rowspan="2">
+                    <div>
+                        <img src={{ avatar }} alt="Фото пользователя" class="round-top">
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><h3 style="font-size:30px;">{{ surname }} {{ name }} {{ patronymic }}</h3></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <p style='font-size:30px; text-decoration: underline; color: orange; text-decoration-style: dashed;'>
+                        {{ status }}</p></td>
+            </tr>
+        </table>
+    </div>
+    <pre>
+
+    </pre>
+    <div class="col-md6 border rounded border-3">
+        <h4>{{ api_form.apikey.label }}</h4>
+        <p>
+            {{ api_form.apikey(class="form-control", style='font-size: 20px;') }}<br>
+            {% for error in api_form.apikey.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
+        {{ api_form.submit(type="submit", class="btn btn-info", style='font-size: 20px;') }}
+        </p>
+        <div style="color: red;">{{ message }}</div>
+    </div>
+</form>
+<div style="font-size:30px;">
+    <h1 align="center">Почта</h1>
+    {% if letters %}
+    {% for item in letters%}
+    <div class="col-md6 border rounded">
+        <h2>{{item.title}}</h2>
+        <div class="col-md6 border border-4">
+            {{item.content}}
+        </div>
+        <a href="/letter_delete/{{ item.id }}" class="btn btn-warning">
+            Прочитано
+        </a>
+    </div>
+    <pre>
+        </pre>
+    {% endfor %}
+    {% else %}
+    <div class="col-md6 border rounded">
+        Пока сообщений нет.
+    </div>
+    {% endif %}
+</div>
+<a href="/logout" role="button" class="btn btn-danger btn-lg">Выйти</a>
+{% endblock %}
