@@ -311,6 +311,11 @@ def profile():
     about = current_user.about
     with open(IMG, "wb+") as file:
         file.write(f)
+    img = Image.open(f'static/img/user/avatar.png')
+    w = img.size[0]
+    h = img.size[1]
+    image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
+    image.save(f'static/img/user/avatar.png')
     param = {'api_form': api_form,
              'status': role.name,
              'letters': letters,
