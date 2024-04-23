@@ -77,10 +77,9 @@
                     <button class="btn btn-outline-primar" type="submit"><img
                             src="../../static/img/VK_Logo.png" width="24" height="24" alt="..."></button>
                 </form>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Поиск по сайту..."
-                           aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Искать</button>
+                <form class="d-flex" action="" method="post" enctype="multipart/form-data">
+                    {{ search_form.search(type="text", class="form-control me-2", placeholder='Поиск по сайту...')}}
+                    {{ search_form.submit(type="submit", class="btn btn-outline-success", class="i-btn") }}
                 </form>
                 {% if current_user.is_authenticated %}
                 <span>&nbsp;&nbsp;&nbsp;

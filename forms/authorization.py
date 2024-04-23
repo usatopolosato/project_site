@@ -21,3 +21,8 @@ class RegisterForm(FlaskForm):
     patronymic = StringField('Введите отчество', validators=[DataRequired()])
     about = StringField('О себе', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
+
+
+class SearchForm(FlaskForm):
+    search = StringField('Искать', validators=[DataRequired()])
+    submit = SubmitField('Поиск')

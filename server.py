@@ -1,6 +1,8 @@
 import io
 
+import requests
 from PIL import Image
+from bs4 import BeautifulSoup
 from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session, users_resource, resource_roles
@@ -8,7 +10,7 @@ from data.users import User
 from data.news import News
 from data.letter import Letter
 from data.roles import Role
-from forms.authorization import LoginForm, RegisterForm
+from forms.authorization import LoginForm, RegisterForm, SearchForm
 from forms.feedback import LetterForm
 from forms.users import ApiForm
 from forms.news import NewsForm1, NewsForm2, NewsForm3
@@ -244,6 +246,7 @@ def letter_delete(id):
 def index():
     db_sess = db_session.create_session()
     feedback_form = LetterForm()
+    search_form = SearchForm()
     top_users = []
     top_img = []
     news = db_sess.query(News).all()
@@ -281,7 +284,16 @@ def index():
                     user.letters.append(letter)
             db_sess.commit()
             return redirect('/')
-    return render_template("index.html", feedback_form=feedback_form,
+    if search_form.data['submit']:
+        page = requests.get('https://habr.com/ru/articles/544828/')
+        filteredNews = []
+        allNews = []
+        soup = BeautifulSoup(page.text, "html.parser")
+        allNews = soup.findAll('a')
+        for data in allNews:
+            print(data.text)
+    print(search_form.data)
+    return render_template("index.html", feedback_form=feedback_form, search_form=search_form,
                            top_list=top_img, top_users=top_users, news=news,
                            title='ГЛАВНАЯ СТРАНИЦА САЙТА')
 
