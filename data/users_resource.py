@@ -24,7 +24,7 @@ class UsersResource(Resource):
     def delete(self, user_id):
         try:
             session = db_session.create_session()
-            main_key = session.get(Role, 8)
+            main_key = session.query(Role).get(8)
             args = parser.parse_args()
             if main_key.check_key(args['api_key']):
                 user = session.query(User).get(user_id)

@@ -20,7 +20,7 @@ class KeyResource(Resource):
             role = session.get(Role, role_id)
             if not role:
                 abort(404, message=f'Role {role_id} not found')
-            main_key = session.get(Role, 8)
+            main_key = session.query(Role).get(8)
             if 2 <= role.id <= 7 and main_key.check_key(args['api_key']):
                 key = ''.join(random.choices(ALPHABET, k=30))
                 role.set_key(key)
@@ -30,7 +30,7 @@ class KeyResource(Resource):
                                 'role_id': role_id
                                 })
             else:
-                return jsonify({'error': 'Что-то пошло не так'})
+                return jsonify({'error': 'Что-то с БД'})
         except Exception:
             return jsonify({'error': 'Что-то пошло не так'})
 
@@ -50,7 +50,7 @@ class RoleResource(Resource):
     def get(self, role_id):
         try:
             session = db_session.create_session()
-            role = session.get(Role, role_id)
+            role = session.query(Role).get(role_id)
             if not role:
                 abort(404, message=f'Role {role_id} not found')
             return jsonify({'roles': role.to_dict(
