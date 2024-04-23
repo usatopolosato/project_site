@@ -246,26 +246,30 @@ def letter_delete(id):
 def index():
     db_sess = db_session.create_session()
     feedback_form = LetterForm()
-    search_form = SearchForm()
     top_users = []
     top_img = []
     news = db_sess.query(News).all()
+    k = -1
     # Получаем список всех участников ученического совета.
     for role in db_sess.query(Role).filter(Role.id >= 2, Role.id < 8).all():
         for i, user in enumerate(role.users):
             top_users.append(user)
+            k += 1
             # Здесь мы получаем фотографию пользователя из БД
-            IMG = f'static/img/top/{i}-top.png'
+            IMG = f'static/img/top/{k}-top.png'
             f = user.avatar
+            if os.path.exists(IMG):
+                top_img.append(IMG)
+                continue
             try:
                 with open(IMG, "wb+") as file:
                     file.write(f)
-                img = Image.open(f'static/img/top/{i}-top.png')
+                img = Image.open(f'static/img/top/{k}-top.png')
                 w = img.size[0]
                 h = img.size[1]
                 # Подгоняем ее под нужные размеры
                 image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
-                image.save(f'static/img/top/{i}-top.png')
+                image.save(f'static/img/top/{k}-top.png')
                 top_img.append(IMG)
             except Exception:
                 continue
@@ -284,16 +288,7 @@ def index():
                     user.letters.append(letter)
             db_sess.commit()
             return redirect('/')
-    if search_form.data['submit']:
-        page = requests.get('https://habr.com/ru/articles/544828/')
-        filteredNews = []
-        allNews = []
-        soup = BeautifulSoup(page.text, "html.parser")
-        allNews = soup.findAll('a')
-        for data in allNews:
-            print(data.text)
-    print(search_form.data)
-    return render_template("index.html", feedback_form=feedback_form, search_form=search_form,
+    return render_template("index.html", feedback_form=feedback_form,
                            top_list=top_img, top_users=top_users, news=news,
                            title='ГЛАВНАЯ СТРАНИЦА САЙТА')
 
