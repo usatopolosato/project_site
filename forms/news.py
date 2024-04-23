@@ -4,12 +4,14 @@ from wtforms import BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 
+# Форма для добавления/изменения новости Типа 1.
 class NewsForm1(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField("Содержание")
     submit = SubmitField('Применить')
 
 
+# Форма для добавления/изменения новости Типа 2.
 class NewsForm2(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField("Содержание", validators=[DataRequired()])
@@ -17,6 +19,7 @@ class NewsForm2(FlaskForm):
     submit = SubmitField('Применить')
 
 
+# Форма для добавления/изменения новости Типа 3.
 class NewsForm3(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField("Содержание", validators=[DataRequired()])

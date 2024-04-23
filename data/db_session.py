@@ -3,6 +3,10 @@ import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session
 import sqlalchemy.ext.declarative as dec
 
+# Создадим две переменные: SqlAlchemyBase — некоторую абстрактную декларативную базу,
+# в которую позднее будем наследовать все наши модели, и __factory, которую будем использовать для
+# получения сессий подключения к нашей базе данных.
+
 SqlAlchemyBase = dec.declarative_base()
 
 __factory = None

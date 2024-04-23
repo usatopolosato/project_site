@@ -4,6 +4,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileF
 from wtforms.validators import DataRequired
 
 
+# Форма для ввода Api-Ключа.
 class ApiForm(FlaskForm):
     apikey = StringField('Активируйте api-key для получения новой роли',
                          validators=[DataRequired()])

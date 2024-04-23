@@ -5,6 +5,7 @@ from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
 
+# Таблица для хранения новостей.
 class News(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'news'
 
@@ -17,4 +18,5 @@ class News(SqlAlchemyBase, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
 
+    # Связь с таблицой User
     user = orm.relationship('User')

@@ -4,6 +4,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileF
 from wtforms.validators import DataRequired
 
 
+# Форма для авторизации.
 class LoginForm(FlaskForm):
     nickname = StringField('Введите свой псевдоним', validators=[DataRequired()])
     password = PasswordField('Введите ваш пароль', validators=[DataRequired()])
@@ -11,6 +12,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
+# Форма для регистрации.
 class RegisterForm(FlaskForm):
     nickname = StringField('Введите свой псевдоним', validators=[DataRequired()])
     password = PasswordField('Введите ваш пароль', validators=[DataRequired()])

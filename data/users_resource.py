@@ -9,7 +9,9 @@ parser = reqparse.RequestParser()
 parser.add_argument('api_key', required=True)
 
 
+# Ресурс для работы с пользователем.
 class UsersResource(Resource):
+    # Метод для получения информации о конкретном пользователе.
     def get(self, user_id):
         try:
             session = db_session.create_session()
@@ -21,6 +23,8 @@ class UsersResource(Resource):
         except Exception:
             return jsonify({'error': 'Что-то пошло не так'})
 
+    # Метод предназначен для удаления пользователя
+    # по ключу разработчика(пользоваться нужно с осторожностью)
     def delete(self, user_id):
         try:
             session = db_session.create_session()
@@ -38,6 +42,7 @@ class UsersResource(Resource):
             return jsonify({'error': 'Что-то пошло не так'})
 
 
+# Ресурс для получения информации о всех пользователях.
 class UsersListResource(Resource):
     def get(self):
         try:
