@@ -341,7 +341,7 @@ def registration():
 @login_required
 def profile():
     session = db_session.create_session()
-    message = 'Эта функция временно не работает'
+    message = ''
     api_form = ApiForm()
     # Вводим api-key и если все хорошо, то даем пользователю новую роль.
     if api_form.data['submit']:
