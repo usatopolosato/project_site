@@ -249,14 +249,12 @@ def index():
     top_users = []
     top_img = []
     news = db_sess.query(News).all()
-    k = -1
     # Получаем список всех участников ученического совета.
     for role in db_sess.query(Role).filter(Role.id >= 2, Role.id < 8).all():
         for i, user in enumerate(role.users):
             top_users.append(user)
-            k += 1
             # Здесь мы получаем фотографию пользователя из БД
-            IMG = f'static/img/top/{k}-top.png'
+            IMG = f'static/img/top/{user.id}-top.png'
             f = user.avatar
             if os.path.exists(IMG):
                 top_img.append(IMG)
@@ -264,12 +262,12 @@ def index():
             try:
                 with open(IMG, "wb+") as file:
                     file.write(f)
-                img = Image.open(f'static/img/top/{k}-top.png')
+                img = Image.open(IMG)
                 w = img.size[0]
                 h = img.size[1]
                 # Подгоняем ее под нужные размеры
                 image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
-                image.save(f'static/img/top/{k}-top.png')
+                image.save(IMG)
                 top_img.append(IMG)
             except Exception:
                 continue

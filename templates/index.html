@@ -46,7 +46,7 @@
 </div>
 {% endif %}
 <h1 align="center">Новости нашей школы</h1>
-<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-n.jpg') no-repeat; background-size: cover; background-position: center; font-size:30px">
+<div style="transform: translateX(-10%);width: 120%; min-height: 50vh; background: url('../static/img/background-n.jpg'); background-repeat: round; background-size: cover; background-position: center; font-size:30px">
     <a name="news"></a>
     <div style="transform: translateX(10%)">
         {% for item in news%}
@@ -127,7 +127,7 @@
     </div>
 </div>
 <h1 align="center">Представляем вам ученический совет</h1>
-<div style="transform: translateX(-10%);width: 120%; object-fit: cover; min-height: 50vh; background: url('../static/img/background-t.jpeg'); background-size: cover;">
+<div style="transform: translateX(-10%);width: 120%; object-fit: cover; min-height: 50vh; background: url('../static/img/background-t.jpeg'); background-repeat: round; background-size: cover;">
     <a name="top"></a>
     {% for user in top_users %}
     <div class="border border-3">
