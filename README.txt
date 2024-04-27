@@ -17,6 +17,6 @@ Welcome to our repository.
  Password: 1234567890aA
 There is an API on our website
 Here is an example of getting an api key for a new role(this feature is disabled in glitch):
-print(requests.get('http://127.0.0.1:5000/api/key_roles/2 ',
+print(requests.get('http://127.0.0.1:5000/api/key_roles/2',
 json={'api_key': 'extymtbnhelltytuvytlflen'}).json())
 This api key is the developer's key, be careful.

@@ -1,8 +1,3 @@
-import io
-
-import requests
-from PIL import Image
-from bs4 import BeautifulSoup
 from flask import Flask, render_template, redirect, request, make_response
 from flask import session, abort
 from data import db_session, users_resource, resource_roles
@@ -254,23 +249,8 @@ def index():
         for i, user in enumerate(role.users):
             top_users.append(user)
             # Здесь мы получаем фотографию пользователя из БД
-            IMG = f'static/img/top/{user.id}-top.png'
-            f = user.avatar
-            if os.path.exists(IMG):
-                top_img.append(IMG)
-                continue
-            try:
-                with open(IMG, "wb+") as file:
-                    file.write(f)
-                img = Image.open(IMG)
-                w = img.size[0]
-                h = img.size[1]
-                # Подгоняем ее под нужные размеры
-                image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
-                image.save(IMG)
-                top_img.append(IMG)
-            except Exception:
-                continue
+            IMG = f'static/img/user/avatar.png'
+            top_img.append(IMG)
     # Обрабатываем форму обратной связи.
     if feedback_form.validate_on_submit():
         if current_user.is_authenticated:
@@ -313,8 +293,6 @@ def authorization():
 def registration():
     form = RegisterForm()
     if form.data['submit']:
-        # Получение бинарника изображения
-        avatar = request.files['avatar']
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.nickname == form.nickname.data).first()
         if user:
@@ -329,7 +307,7 @@ def registration():
         user.name = form.name.data
         user.patronymic = form.patronymic.data
         user.about = form.about.data
-        user.avatar = avatar.read()
+        user.avatar = f'static/img/user/avatar.png'
         db_sess.add(user)
         db_sess.commit()
         return redirect("/authorization")
@@ -366,14 +344,6 @@ def profile():
     name = current_user.name
     patronymic = current_user.patronymic
     about = current_user.about
-    # Получаем аватар пользователя
-    with open(IMG, "wb+") as file:
-        file.write(f)
-    img = Image.open(f'static/img/user/avatar.png')
-    w = img.size[0]
-    h = img.size[1]
-    image = img.crop(((w - h) // 2, 0, w // 2 + h // 2, h))
-    image.save(f'static/img/user/avatar.png')
     param = {'api_form': api_form,
              'status': role.name,
              'letters': letters,
@@ -396,6 +366,53 @@ def main():
     api.add_resource(resource_roles.RoleListResource, '/api/roles')
     api.add_resource(resource_roles.RoleResource, '/api/roles/<int:role_id>')
     api.add_resource(resource_roles.KeyResource, '/api/key_roles/<int:role_id>')
+    session = db_session.create_session()
+    user = session.query(User).get(1)
+    user.set_password('mWa90jB90cn3ReE')
+    user = session.query(User).get(2)
+    user.set_password('OivnkvEOr7EygEF')
+    user = session.query(User).get(3)
+    user.set_password('eKhkBN8iAsEUpjE')
+    user = session.query(User).get(4)
+    user.set_password('AF3s9l0BInhRWSK')
+    user = session.query(User).get(5)
+    user.set_password('0mJtnQgOJ02CQ5n')
+    user = session.query(User).get(6)
+    user.set_password('caSw5pW7YiX95fH')
+    user = session.query(User).get(7)
+    user.set_password('IDrKFHYtHZW6dsK')
+    user = session.query(User).get(8)
+    user.set_password('Q9NyaqEdHQExShT')
+    user = session.query(User).get(9)
+    user.set_password('UdZuHHErHMweOoB')
+    user = session.query(User).get(10)
+    user.set_password('SpttBd3FurtQAxN')
+    user = session.query(User).get(11)
+    user.set_password('aRVDSWaLkqe0Dik')
+    user = session.query(User).get(12)
+    user.set_password('iIU34RhKLGnw4cf')
+    user = session.query(User).get(13)
+    user.set_password('a3q8zcKUAqUezax')
+    user = session.query(User).get(14)
+    user.set_password('FgstXUlgdxG2brz')
+    user = session.query(User).get(15)
+    user.set_password('1234567890aA')
+    role = session.query(Role).get(1)
+    role.set_key('Wr96llTyl4NTZXiojDV8jGQZpIz9QI')
+    role = session.query(Role).get(2)
+    role.set_key('2SxICRKpj3cFFj31lrH8MZaiw0mbLO')
+    role = session.query(Role).get(3)
+    role.set_key('vs0PulLpA8M4ilNFrR8MSF8ApihXya')
+    role = session.query(Role).get(4)
+    role.set_key('kBxPeAL3zDchLBowg9r421ZqSNaWFc')
+    role = session.query(Role).get(5)
+    role.set_key('vLIOr8PLAVn5wWe9eBep99WeVND3DB')
+    role = session.query(Role).get(6)
+    role.set_key('nu6dcP0bFbmG0CN4xdJIaOK7akwQPk')
+    role = session.query(Role).get(7)
+    role.set_key('eJfveJ0JA7mUee1xiX5fHzCBJd9q8c')
+    role = session.query(Role).get(8)
+    role.set_key('extymtbnhelltytuvytlflen')
     serve(app, host='0.0.0.0', port=port)
 
 
